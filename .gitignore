@@ -1,2 +1,5 @@
-*.yy.cc
 calc
+*.yy.cc
+*.tab.hh
+*.tab.cc
+location.hh
