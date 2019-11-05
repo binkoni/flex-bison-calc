@@ -21,6 +21,7 @@
 %token RPAREN
 %token END
 %token EOL
+%type<double> expr
 %parse-param { Calc::Driver* driver }
 %{
 #include "lexer.hh"
@@ -33,16 +34,15 @@
 }
 
 %%
-op: PLUS
-  | MINUS
-  | MUL
-  | DIV
-
-expr : NUM
-     | NUM op expr
+expr : NUM { $$ = $1; }
+     | NUM PLUS expr { $$ = $1 + $3; }
+     | NUM MINUS expr { $$ = $1 - $3; }
+     | NUM MUL expr { $$ = $1 * $3; }
+     | NUM DIV expr { $$ = $1 / $3; }
 
 start :
-      | start expr
+      | start expr EOL { printf(" = %lf\n", $2); }
+      | start END
 %%
 void Calc::Parser::error(const Parser::location_type& loc, const std::string& msg) {
 }

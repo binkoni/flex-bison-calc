@@ -1,6 +1,7 @@
 %{
-#include <memory>
 #include <cstdio>
+#include <memory>
+#include <string>
 #include "lexer.hh"
 #include "parser.tab.hh"
 #undef YY_DECL
@@ -26,7 +27,7 @@ DIV \/
 LPAREN \(
 RPAREN \)
 %%
-{NUM} { printf("NUM(%s)", yytext); return Token::NUM; }
+{NUM} { printf("NUM(%s)", yytext); yylval->emplace<double>(std::stod(yytext)); return Token::NUM; }
 {PLUS} { printf("PLUS(%s)", yytext); return Token::PLUS; }
 {MINUS} { printf("MINUS(%s)", yytext); return Token::MINUS; }
 {MUL} { printf("MUL(%s)", yytext); return Token::MUL; }
@@ -34,7 +35,8 @@ RPAREN \)
 {LPAREN} { printf("LPAREN(%s)", yytext); return Token::LPAREN; }
 {RPAREN} { printf("RPAREN(%s)", yytext); return Token::RPAREN; }
 [ \t] {}
-.|\n { ECHO; }
+\n { return Token::EOL; }
+. { ECHO; }
 %%
 #ifdef yylex
 #undef yylex
