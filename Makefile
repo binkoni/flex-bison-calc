@@ -6,7 +6,7 @@ all: calc
 calc: lexer.yy.cc lexer.cc lexer.hh
 	${CXX} ${CXXFLAGS} -o $@ $^
 
-lexer.yy.cc: calc.ll
+lexer.yy.cc: lexer.ll
 	${LEX} ${LFLAGS} -o $@ $^
 
 .PHONY: clean
