@@ -1,9 +1,12 @@
 %{
 #include "lexer.hh"
-#include <stdio.h>
+#include <memory>
+#include <cstdio>
 %}
 %option nodefault
 %option noyywrap
+%option c++
+%option yyclass="Calc::Lexer"
 NUM [0-9]*\.?[0-9]+
 PLUS \+
 MINUS -
@@ -23,5 +26,6 @@ RPAREN \)
 .|\n { ECHO; }
 %%
 int main() {
-  yylex();
+    auto lexer = std::make_unique<Calc::Lexer>();
+    lexer->yylex();
 }
