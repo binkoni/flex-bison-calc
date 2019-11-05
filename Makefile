@@ -1,13 +1,16 @@
-CXXFLAGS := -g
+CXXFLAGS := -g -pg
 CXXFLAGS += -fsanitize=address,leak
 
 all: calc
 
-calc: lexer.yy.cc lexer.cc lexer.hh
+calc: main.cc lexer.yy.cc lexer.cc lexer.hh parser.tab.cc parser.tab.hh driver.cc driver.hh
 	${CXX} ${CXXFLAGS} -o $@ $^
 
 lexer.yy.cc: lexer.ll
 	${LEX} ${LFLAGS} -o $@ $^
+
+parser.tab.cc: parser.yy
+	bison $^
 
 .PHONY: clean
 clean:

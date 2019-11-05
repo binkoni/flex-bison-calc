@@ -1,10 +1,21 @@
 %{
-#include "lexer.hh"
 #include <memory>
 #include <cstdio>
+#include "lexer.hh"
+#include "parser.tab.hh"
+#undef YY_DECL
+#define YY_DECL \
+Calc::Parser::token_type \
+Calc::Lexer::lex( \
+    Calc::Parser::semantic_type* yylval, \
+    Calc::Parser::location_type* yylloc \
+)
+using Token = Calc::Parser::token;
+#define yyterminate() return Token::END
 %}
 %option nodefault
 %option noyywrap
+%option nounput
 %option c++
 %option yyclass="Calc::Lexer"
 NUM [0-9]*\.?[0-9]+
@@ -15,17 +26,17 @@ DIV \/
 LPAREN \(
 RPAREN \)
 %%
-{NUM} { printf("NUM(%s)", yytext); }
-{PLUS} { printf("PLUS(%s)", yytext); }
-{MINUS} { printf("MINUS(%s)", yytext); }
-{MUL} { printf("MUL(%s)", yytext); }
-{DIV} { printf("DIV(%s)", yytext); }
-{LPAREN} { printf("LPAREN(%s)", yytext); }
-{RPAREN} { printf("RPAREN(%s)", yytext); }
+{NUM} { printf("NUM(%s)", yytext); return Token::NUM; }
+{PLUS} { printf("PLUS(%s)", yytext); return Token::PLUS; }
+{MINUS} { printf("MINUS(%s)", yytext); return Token::MINUS; }
+{MUL} { printf("MUL(%s)", yytext); return Token::MUL; }
+{DIV} { printf("DIV(%s)", yytext); return Token::DIV; }
+{LPAREN} { printf("LPAREN(%s)", yytext); return Token::LPAREN; }
+{RPAREN} { printf("RPAREN(%s)", yytext); return Token::RPAREN; }
 [ \t] {}
 .|\n { ECHO; }
 %%
-int main() {
-    auto lexer = std::make_unique<Calc::Lexer>();
-    lexer->yylex();
-}
+#ifdef yylex
+#undef yylex
+#endif
+
