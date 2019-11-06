@@ -14,4 +14,4 @@ parser.tab.cc: parser.yy
 
 .PHONY: clean
 clean:
-	rm -rf *.o *.yy.cc
+	rm -rf *.o *.yy.cc *.tab.hh *.tab.cc *.out location.hh
