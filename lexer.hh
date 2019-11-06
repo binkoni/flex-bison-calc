@@ -3,14 +3,6 @@
 #ifndef yyFlexLexerOnce
 # include <FlexLexer.h>
 #endif
-#ifndef YY_DECL
-#define YY_DECL \
-Calc::Parser::token_type Calc::Scanner::lex( \
-    Calc::Parser::semantic_type* yylval, \
-    Calc::Parser::location_type* yyloc \
-)
-#endif
-
 #include "parser.tab.hh"
 
 namespace Calc
