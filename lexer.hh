@@ -10,7 +10,7 @@ namespace Calc
     class Lexer;
 };
 
-class Calc::Lexer : public yyFlexLexer {
+class Calc::Lexer: public yyFlexLexer {
 public:
     explicit Lexer();
     virtual ~Lexer();
