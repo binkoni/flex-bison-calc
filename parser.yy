@@ -12,7 +12,7 @@
 %define parse.error verbose
 %locations
 %start start
-%token <double> NUM
+%token<double> NUM
 %token PLUS
 %token MINUS
 %token MUL
