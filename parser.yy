@@ -6,7 +6,7 @@
 %skeleton "lalr1.cc"
 %language "c++"
 %debug
-%define api.prefix {Calc}
+%define api.namespace {Calc}
 %define api.parser.class {Parser}
 %define api.value.type variant
 %define parse.error verbose
